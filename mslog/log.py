@@ -30,14 +30,15 @@ def create_kafka_thread(kafka_servers, json_message, kafka_topic):
 
 
 class Log:
-    def __init__(self, client_id, kafka_servers, module_name, kafka_logging):
+    def __init__(self, client_id, kafka_servers, module_name, kafka_logging, kafka_topic):
         self.client_id = client_id
         self.kafka_servers = kafka_servers
         self.module_name = module_name
         self.kafka_logging = kafka_logging
+        self.kafka_topic = kafka_topic
         logging.getLogger("kafka").setLevel(logging.ERROR or logging.WARN or logging.WARNING)
 
-    def log(self, message, log_level="info", log_name="log", kafka_topic="log"):
+    def log(self, message, log_level="info", log_name="log"):
         x = threading.Thread(target=do_log, args=(message, log_level, log_name))
         x.start()
         if self.kafka_logging:
@@ -46,7 +47,7 @@ class Log:
                 traceback = tb.format_exc()
             json_message = create_json_message(message=message, log_level=log_level, module_name=self.module_name,
                                                trace_back=traceback)
-            create_kafka_thread(self.kafka_servers, json_message, kafka_topic)
+            create_kafka_thread(self.kafka_servers, json_message, self.kafka_topic)
 
 
 def do_log(message, log_level, filename):
