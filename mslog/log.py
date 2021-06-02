@@ -28,8 +28,8 @@ def create_kafka_thread(kafka_servers, json_message, kafka_topic):
     y = threading.Thread(target=send_to_kafka, args=(kafka_servers, json_message, kafka_topic))
     y.start()
 
-def do_log(message, log_level, filename):
-    logging.basicConfig(filename=f'{filename}.log', level=logging.DEBUG,
+def do_log(message, module_name, log_level, filename):
+    logging.basicConfig(filename=f'/var/log/{module_name}/{filename}.log', level=logging.DEBUG,
                         format='%(asctime)s.%(msecs)03d %(levelname)s : %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
     if log_level == "critical":
@@ -53,7 +53,7 @@ class Log:
         logging.getLogger("kafka").setLevel(logging.ERROR or logging.WARN or logging.WARNING)
 
     def log(self, message, log_level="info", log_name="log"):
-        x = threading.Thread(target=do_log, args=(message, log_level, log_name))
+        x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, log_name))
         x.start()
         if self.kafka_logging:
             traceback = ""
