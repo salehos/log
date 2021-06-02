@@ -28,7 +28,21 @@ def create_kafka_thread(kafka_servers, json_message, kafka_topic):
     y = threading.Thread(target=send_to_kafka, args=(kafka_servers, json_message, kafka_topic))
     y.start()
 
-
+def do_log(message, log_level, filename):
+    logging.basicConfig(filename=f'{filename}.log', level=logging.DEBUG,
+                        format='%(asctime)s.%(msecs)03d %(levelname)s : %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
+    if log_level == "critical":
+        logging.critical(message, exc_info=True)
+    elif log_level == "info":
+        logging.info(message)
+    elif log_level == "debug":
+        logging.debug(message)
+    elif log_level == "warn":
+        logging.warning(message)
+    elif log_level == "error":
+        logging.error(message, exc_info=True)
+        
 class Log:
     def __init__(self, client_id, kafka_servers, module_name, kafka_logging, kafka_topic):
         self.client_id = client_id
@@ -50,17 +64,4 @@ class Log:
             create_kafka_thread(self.kafka_servers, json_message, self.kafka_topic)
 
 
-def do_log(message, log_level, filename):
-    logging.basicConfig(filename=f'{filename}.log', level=logging.DEBUG,
-                        format='%(asctime)s.%(msecs)03d %(levelname)s : %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S')
-    if log_level == "critical":
-        logging.critical(message, exc_info=True)
-    elif log_level == "info":
-        logging.info(message)
-    elif log_level == "debug":
-        logging.debug(message)
-    elif log_level == "warn":
-        logging.warning(message)
-    elif log_level == "error":
-        logging.error(message, exc_info=True)
+
