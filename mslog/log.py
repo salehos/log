@@ -6,12 +6,23 @@ import traceback as tb
 
 
 def create_json_message(message, log_level, module_name, trace_back):
-    return {
-        'message': message,
-        'log_level': log_level,
-        'module_name': module_name,
-        'trace_back': trace_back,
-    }
+    if type(message) == str:
+        try:
+            message = message.replace("\'","\"")
+            message = json.loads(message)
+            message.update({'log_level': log_level, 'module_name': module_name,'trace_back': trace_back})
+            return message
+        except:
+            return {
+                'message': message,
+                'log_level': log_level,
+                'module_name': module_name,
+                'trace_back': trace_back,
+            }
+    elif type(message) == dict:
+        message.update({'log_level': log_level, 'module_name': module_name,'trace_back': trace_back})
+        return message
+        
 
 
 def json_serializer(data):
