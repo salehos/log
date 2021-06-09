@@ -69,8 +69,11 @@ class Log:
         logging.getLogger("kafka").setLevel(logging.ERROR or logging.WARN or logging.WARNING)
         
 
-    def log(self, message, log_level="info"):
-        x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, self.log_name))
+    def log(self, message, log_level="info", log_name=None):
+        if log_name is None:
+            x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, self.log_name))
+        else:
+            x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, log_name))
         x.start()
         if self.kafka_logging:
             traceback = ""
