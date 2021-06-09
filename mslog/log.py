@@ -55,16 +55,22 @@ def do_log(message, module_name, log_level, filename):
         logging.error(message, exc_info=True)
         
 class Log:
-    def __init__(self, client_id, kafka_servers, module_name, kafka_logging, kafka_topic):
+    def __init__(self, client_id, kafka_servers, module_name, kafka_logging, kafka_topic, **kwargs):
         self.client_id = client_id
         self.kafka_servers = kafka_servers
         self.module_name = module_name
         self.kafka_logging = kafka_logging
         self.kafka_topic = kafka_topic
+        for key, value in kwargs.items():
+            if key == "log_name":
+                self.log_name = value
+        if self.log_name:
+            self.log_name = "log"
         logging.getLogger("kafka").setLevel(logging.ERROR or logging.WARN or logging.WARNING)
+        
 
-    def log(self, message, log_level="info", log_name="log"):
-        x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, log_name))
+    def log(self, message, log_level="info"):
+        x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, self.log_name))
         x.start()
         if self.kafka_logging:
             traceback = ""
