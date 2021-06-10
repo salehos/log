@@ -61,11 +61,10 @@ class Log:
         self.module_name = module_name
         self.kafka_logging = kafka_logging
         self.kafka_topic = kafka_topic
+        self.log_name = "log"
         for key, value in kwargs.items():
             if key == "log_name":
                 self.log_name = value
-        if self.log_name:
-            self.log_name = "log"
         logging.getLogger("kafka").setLevel(logging.ERROR or logging.WARN or logging.WARNING)
         
 
