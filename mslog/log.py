@@ -64,7 +64,7 @@ class Log:
         for key, value in kwargs.items():
             if key == "log_name":
                 self.log_name = value
-        if self.log_name:
+        if hasattr(self, 'log_name'):
             self.log_name = "log"
         logging.getLogger("kafka").setLevel(logging.ERROR or logging.WARN or logging.WARNING)
         
