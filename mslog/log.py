@@ -66,6 +66,8 @@ class Log:
             if key == "log_name":
                 self.log_name = value
         logging.getLogger("kafka").setLevel(logging.ERROR or logging.WARN or logging.WARNING)
+        logging.getLogger("requests").setLevel(logging.ERROR)
+        logging.getLogger("urllib").setLevel(logging.ERROR)
         
 
     def log(self, message, log_level="info", log_name=None):
