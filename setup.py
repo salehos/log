@@ -7,7 +7,7 @@ setup(
     description='My log Python library',
     author='Mohammad saleh saeidi',
     license='MIT',
-    install_requires=['kafka-python==2.0.2', 'pymongo=3.11.4'],
+    install_requires=['kafka-python==2.0.2', 'pymongo==3.11.4'],
     url="https://github.com/salehos/log",
 
 )
