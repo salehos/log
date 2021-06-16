@@ -20,10 +20,16 @@ def create_json_message(message, log_level, module_name, trace_back):
                 'trace_back': trace_back,
             }
     elif type(message) == dict:
-        message = dumps(message, json_options=RELAXED_JSON_OPTIONS)
-        message = json.loads(message)
-        message.update({'log_level': log_level, 'module_name': module_name,'trace_back': trace_back})
-        return message
+        try : 
+            message = dumps(message, json_options=RELAXED_JSON_OPTIONS)
+            message = json.loads(message)
+            message.update({'log_level': log_level, 'module_name': module_name,'trace_back': trace_back})
+            return message
+        except :
+            message.update({'log_level': log_level, 'module_name': module_name,'trace_back': trace_back})
+            return message
+        
+        
         
 
 
