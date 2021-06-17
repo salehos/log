@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name='mslog',
     packages=find_packages(),
-    version='0.1.8',
+    version='0.1.9',
     description='My log Python library',
     author='Mohammad saleh saeidi',
     license='MIT',
