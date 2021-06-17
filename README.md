@@ -4,6 +4,13 @@ python logger library
 how to install(for the begginers):
 pip install -e git://github.com/salehos/log.git@[last_commit]#egg=mslog
  ```console
+ $ pip install -e git://github.com/salehos/log.git@804ab0375db6b517e7bbbe782cc9390e1bfbbb6a#egg=mslog
+```
+
+
+for Bson type use this version
+
+ ```console
 $ pip install -e git://github.com/salehos/log.git@173a894736338891c171a08ea9ecd40e33b45f42#egg=mslog
 ```
 
