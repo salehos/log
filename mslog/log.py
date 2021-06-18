@@ -3,7 +3,6 @@ import threading
 import json
 from kafka import KafkaProducer
 import traceback as tb
-from bson.json_util import dumps, RELAXED_JSON_OPTIONS
 
 def create_json_message(message, log_level, module_name, trace_back):
     if type(message) == str:
