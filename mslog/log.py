@@ -81,18 +81,25 @@ class Log:
         
 
     def log(self, message, log_level="info", log_name=None):
-        if log_name is None:
-            x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, self.log_name))
-        else:
-            x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, log_name))
-        x.start()
-        if self.kafka_logging:
-            traceback = ""
-            if log_level == "error" or log_level == "critical":
-                traceback = tb.format_exc()
-            json_message = create_json_message(message=message, log_level=log_level, module_name=self.module_name,
-                                               trace_back=traceback)
-            create_kafka_thread(self.kafka_servers, json_message, self.kafka_topic)
+        try :
+            if log_name is None:
+                x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, self.log_name))
+            else:
+                x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, log_name))
+            x.start()
+        except Exception as e:
+            raise e
+
+        try:
+            if self.kafka_logging:
+                traceback = ""
+                if log_level == "error" or log_level == "critical":
+                    traceback = tb.format_exc()
+                json_message = create_json_message(message=message, log_level=log_level, module_name=self.module_name,
+                                                   trace_back=traceback)
+                create_kafka_thread(self.kafka_servers, json_message, self.kafka_topic)
+        except Exception as e:
+            raise e
 
 
 
