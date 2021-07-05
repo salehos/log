@@ -42,7 +42,7 @@ def json_serializer(data):
 def send_to_kafka(kafka_servers, json_message, kafka_topic):
     producer = KafkaProducer(bootstrap_servers=kafka_servers,
                              value_serializer=json_serializer)
-    producer.send(kafka_topic, json_message)
+    producer.send(kafka_topic, json.load(json_message))
 
 
 def create_kafka_thread(kafka_servers, json_message, kafka_topic):
@@ -65,12 +65,13 @@ def do_log(message, module_name, log_level, filename):
         logging.error(message, exc_info=True)
         
 class Log:
-    def __init__(self, client_id, kafka_servers, module_name, kafka_logging, kafka_topic, **kwargs):
+    def __init__(self, client_id, kafka_servers, module_name, kafka_logging, local_logging, kafka_topic, **kwargs):
         self.client_id = client_id
         self.kafka_servers = kafka_servers
         self.module_name = module_name
         self.kafka_logging = kafka_logging
         self.kafka_topic = kafka_topic
+        self.local_logging = local_logging
         self.log_name = "log"
         for key, value in kwargs.items():
             if key == "log_name":
@@ -82,11 +83,14 @@ class Log:
 
     def log(self, message, log_level="info", log_name=None):
         try :
-            if log_name is None:
-                x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, self.log_name))
+            if self.local_logging:
+                if log_name is None:    
+                    x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, self.log_name))
+                else:
+                    x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, log_name))
+                x.start()
             else:
-                x = threading.Thread(target=do_log, args=(message, self.module_name, log_level, log_name))
-            x.start()
+                pass
         except Exception as e:
             raise e
 
