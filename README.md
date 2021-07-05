@@ -4,7 +4,7 @@ python logger library
 how to install(for the begginers):
 pip install -e git://github.com/salehos/log.git@[last_commit]#egg=mslog
  ```console
- $ pip install -e git://github.com/salehos/log.git@804ab0375db6b517e7bbbe782cc9390e1bfbbb6a#egg=mslog
+ $ pip install -e git://github.com/salehos/log.git@c9bfc76d9e19a81c13564442ac0d369f9b15d00c#egg=mslog
 ```
 
 
@@ -26,7 +26,7 @@ $ import mslog
  ```console
 $ log_module = mslog.Log(client_id=config.logging_client_id, kafka_servers=config.kafka_servers,
                            module_name=config.module_name, kafka_logging=config
-                           .kafka_logging, kafka_topic=config.kafka_log_topic, log_name = config.log_name)
+                           .kafka_logging, local_logging=config.local_logging , kafka_topic=config.kafka_log_topic, log_name = config.log_name)
 ```
 
 3- use .log method to log like this:(for info log)
