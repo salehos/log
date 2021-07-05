@@ -42,7 +42,7 @@ def json_serializer(data):
 def send_to_kafka(kafka_servers, json_message, kafka_topic):
     producer = KafkaProducer(bootstrap_servers=kafka_servers,
                              value_serializer=json_serializer)
-    producer.send(kafka_topic, json.load(json_message))
+    producer.send(kafka_topic, json_message)
 
 
 def create_kafka_thread(kafka_servers, json_message, kafka_topic):
