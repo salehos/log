@@ -1,8 +1,9 @@
 import logging
 import threading
 import json
-from kafka import KafkaProducer
+import confluent_kafka
 import traceback as tb
+from requests.exceptions import ConnectTimeout
 
 def create_json_message(message, log_level, module_name, trace_back):
     if type(message) == str:
@@ -39,10 +40,27 @@ def json_serializer(data):
     return json.dumps(data).encode('utf-8')
 
 
+def delivery_report(err, msg):
+    """ Called once for each message produced to indicate delivery result.
+        Triggered by poll() or flush(). """
+    if err is not None:
+        print(48)
+        print('Message delivery failed: {}'.format(err))
+    else:
+        print('Message delivered to {} [{}]'.format(
+            msg.topic(), msg.partition()))
+
 def send_to_kafka(kafka_servers, json_message, kafka_topic):
-    producer = KafkaProducer(bootstrap_servers=kafka_servers,
-                             value_serializer=json_serializer)
-    producer.send(kafka_topic, json_message)
+    p = confluent_kafka.Producer({'bootstrap.servers': kafka_servers})
+    p.poll(0)
+    p.produce(kafka_topic,json.dumps(json_message),call_back=delivery_report)
+    try:
+        re = p.flush(timeout=10)
+        if re > 0:
+            raise ConnectTimeout
+    except:
+        raise ConnectTimeout
+    
 
 
 def create_kafka_thread(kafka_servers, json_message, kafka_topic):
