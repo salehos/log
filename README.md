@@ -4,7 +4,7 @@ python logger library
 how to install(for the begginers):
 pip install -e git://github.com/salehos/log.git@[last_commit]#egg=mslog
  ```console
- $ pip install -e git://github.com/salehos/log.git@6999ae08d158be3c8a5e93c3732363d282bce07c#egg=mslog
+ $ pip install -e git://github.com/salehos/log.git@1516d5093220a505a0676e1f0e7fc8129264d01c#egg=mslog
 ```
 
 
