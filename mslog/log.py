@@ -53,7 +53,7 @@ def delivery_report(err, msg):
 def send_to_kafka(kafka_servers, json_message, kafka_topic):
     p = confluent_kafka.Producer({'bootstrap.servers': kafka_servers})
     p.poll(0)
-    p.produce(kafka_topic,json.dumps(json_message),call_back=delivery_report)
+    p.produce(kafka_topic,json.dumps(json_message),callback=delivery_report)
     try:
         re = p.flush(timeout=10)
         if re > 0:
