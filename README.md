@@ -2,9 +2,9 @@
 python logger library
 
 how to install(for the begginers):
-pip install -e git://github.com/Ganjineh/log.git@[last_commit]#egg=mslog
+pip install -e git://github.com/salehos/log.git@[last_commit]#egg=mslog
  ```console
-pip install -e git://github.com/Ganjineh/log.git@1516d5093220a505a0676e1f0e7fc8129264d01c#egg=mslog
+pip install -e git://github.com/salehos/log.git@1516d5093220a505a0676e1f0e7fc8129264d01c#egg=mslog
 ```
 
 
